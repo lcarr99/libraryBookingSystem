@@ -24,3 +24,5 @@ Route::get('about', function(){
 Route::get('register', function(){
    return view('pages.register');
 })->name("register");
+
+Route::post('register', 'user_controller@registerUser')->name('register');
