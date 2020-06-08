@@ -1,0 +1,12 @@
+db:
+  image: mysql:5.7.22
+  container_name: library_db
+  restart: unless-stopped
+  tty: true
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_DATABASE: library-system
+    MYSQL_ROOT_PASSWORD: somePassword
+    SERVICE_TAGS: dev
+    SERVICE_NAME: mysql
