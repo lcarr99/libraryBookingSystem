@@ -20,16 +20,16 @@
                 </div>
             @endif
             <div class="row justify-content-center">
-                <form action="" class="bg-light" style="width: 50%; padding: 25px 25px 25px 25px; margin-top: 30px">
+                <form method="post" action="{{route("login")}}" class="bg-light" style="width: 50%; padding: 25px 25px 25px 25px; margin-top: 30px">
                     <h1>Login</h1>
                     <br>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="Email">Email address</label>
+                        <input type="email" name="email" class="form-control" id="Email" aria-describedby="emailHelp">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
+                        <label for="Password">Password</label>
+                        <input type="password" name="password" class="form-control" id="Password">
                     </div>
                     {{csrf_field()}}
                     <button type="submit" class="btn btn-success">Log in</button>

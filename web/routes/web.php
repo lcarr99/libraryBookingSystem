@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.home');
-})->name("homepage");
+})->name("homepage")->middleware('signedIn');
 
 Route::get('about', function(){
    return view('pages.about');
@@ -26,3 +26,5 @@ Route::get('register', function(){
 })->name("register");
 
 Route::post('register', 'user_controller@registerUser')->name('register');
+
+Route::post('/', "user_controller@login")->name("login");

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Hash;
@@ -31,10 +32,13 @@ class user_controller extends Controller
         }elseif($request->password !== $request->confirm_password){
             return redirect()->route("homepage")->with("error", "Passwords don't match");
         }else {
+
             if(DB::table("users")->insert(["first_name" => $request->first_name,
                 "last_name" => $request->last_name,
                 "date_of_birth" => $request->date_of_birth,
-                "email" => $request->email, "password" => Hash::make($request->password)])){
+                "email" => $request->email, "password" => Hash::make($request->password),
+                    "created_at" => now(),
+                    "updated_at" => now()])){
 
                 return redirect()->route("homepage")->with("success", "Account Successfully Registered");
             }else{
@@ -44,6 +48,20 @@ class user_controller extends Controller
 
     }
 
+    public static function login(Request $request){
+        $results = DB::table('users')->select("*")->where("email", $request->email)->first();
 
+        if(!empty($results)){
+            if(Hash::check($request->password, $results->password)){
+                Auth::loginUsingId($results->id, true);
+                return redirect()->route('homepage');
+            }else{
+                return redirect()->route('homepage')->with("error", "Password is wrong");
+            }
+        }else{
+            return redirect()->route('homepage')->with("error", "Email doesn't exist");
+        }
+
+    }
 
 }
