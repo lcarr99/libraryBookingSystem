@@ -54,7 +54,7 @@ class user_controller extends Controller
         if(!empty($results)){
             if(Hash::check($request->password, $results->password)){
                 Auth::loginUsingId($results->id, true);
-                return redirect()->route('homepage');
+                return redirect()->route('dashboard');
             }else{
                 return redirect()->route('homepage')->with("error", "Password is wrong");
             }

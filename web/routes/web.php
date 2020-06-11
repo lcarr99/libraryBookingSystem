@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +30,8 @@ Route::get('register', function(){
 Route::post('register', 'user_controller@registerUser')->name('register');
 
 Route::post('/', "user_controller@login")->name("login");
+
+Route::get('dashboard', function(){
+    $results = DB::table('users')->find(Auth::id());
+    return view("pages.userHome", ["results" => $results]);
+})->name('dashboard')->middleware('userSession');

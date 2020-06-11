@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class checkUserSession
+class checkUserSignedIn
 {
     /**
      * Handle an incoming request.
@@ -16,11 +16,10 @@ class checkUserSession
      */
     public function handle($request, Closure $next)
     {
-        if(auth::check()){
-            return redirect()->route('dashboard');
+        if(!auth::check()){
+            return redirect()->route('homePage');
         }else{
             return $next($request);
         }
-
     }
 }
