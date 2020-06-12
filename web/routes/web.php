@@ -1,5 +1,7 @@
 <?php
 
+use App\bookings;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +34,8 @@ Route::post('register', 'user_controller@registerUser')->name('register');
 Route::post('/', "user_controller@login")->name("login");
 
 Route::get('dashboard', function(){
-    $results = DB::table('users')->find(Auth::id());
-    return view("pages.userHome", ["results" => $results]);
+    $results = User::find(auth::id());
+    $bookingsCount = bookings::select("*")->where("user_id", auth::id())->count();
+    $overdueBookings = bookings::select("*")->where("return_date", "<", now())->count();
+    return view("pages.userHome", ["results" => $results, "bookingsCount" => $bookingsCount, "overdueBookings" => $overdueBookings]);
 })->name('dashboard')->middleware('userSession');

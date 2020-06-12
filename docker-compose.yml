@@ -1,12 +1,13 @@
-db:
-  image: mysql:5.7.22
-  container_name: library_db
-  restart: unless-stopped
-  tty: true
-  ports:
-    - "3306:3306"
-  environment:
-    MYSQL_DATABASE: library-system
-    MYSQL_ROOT_PASSWORD: somePassword
-    SERVICE_TAGS: dev
-    SERVICE_NAME: mysql
+version: "3.3"
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=library-system
+      - MYSQL_PASSWORD=somePassword
+      - MYSQL_USER=root
+

@@ -33,7 +33,7 @@ class user_controller extends Controller
             return redirect()->route("homepage")->with("error", "Passwords don't match");
         }else {
 
-            if(DB::table("users")->insert(["first_name" => $request->first_name,
+            if(User::insert(["first_name" => $request->first_name,
                 "last_name" => $request->last_name,
                 "date_of_birth" => $request->date_of_birth,
                 "email" => $request->email, "password" => Hash::make($request->password),
@@ -42,14 +42,14 @@ class user_controller extends Controller
 
                 return redirect()->route("homepage")->with("success", "Account Successfully Registered");
             }else{
-                return redirect()->route("homepage")->with("error", "Error creating your account please phone in");
+                return redirect()->route("homepage")->with("error", "Error creating your account");
             }
         }
 
     }
 
     public static function login(Request $request){
-        $results = DB::table('users')->select("*")->where("email", $request->email)->first();
+        $results = User::select("*")->where("email", $request->email)->first();
 
         if(!empty($results)){
             if(Hash::check($request->password, $results->password)){
